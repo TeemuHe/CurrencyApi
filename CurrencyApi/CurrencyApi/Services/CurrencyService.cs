@@ -33,7 +33,16 @@ namespace CurrencyApi.Services
 
         public RATE Update(RATE rate, string country)
         {
-            return _currencyRepository.Update(rate, country);
+            var updatedRate = _currencyRepository.Read(country);
+            if(updatedRate != null)
+            {
+                return _currencyRepository.Update(rate, country);
+            }
+            else
+            {
+                throw new Exception("Rate not found!");
+            }
+            
         }
     }
 }
