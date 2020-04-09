@@ -31,6 +31,16 @@ namespace CurrencyApi.Services
             return _currencyRepository.Read(country);
         }
 
+        public RATE ReadCurrencyAmount(decimal amount, string country1, string country2)
+        {
+            return _currencyRepository.ReadCurrencyAmount(amount, country1, country2);
+        }
+
+        public RATE ReadCurrencyAmount2(decimal amount, string country1, string country2)
+        {
+            return _currencyRepository.ReadCurrencyAmount2(amount, country1, country2);
+        }
+
         public RATE Update(RATE rate, string country)
         {
             var updatedRate = _currencyRepository.Read(country);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CurrencyApi.Models;
 using CurrencyApi.Repositories;
 using CurrencyApi.Services;
 using Microsoft.AspNetCore.Http;
@@ -24,35 +25,46 @@ namespace CurrencyApi.Controllers
         }
         // GET: api/Currency
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = _currencyService.Read();
+            return new JsonResult(result);
         }
 
         // GET: api/Currency/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{country}", Name = "Get")]
         public ActionResult Get(string country)
         {
             var result = _currencyService.Read(country);
             return new JsonResult(result);
         }
 
+        // GET: api/Currency/5/CAD/THB
+        [HttpGet("{amount}/{country1}/{country2}")]
+        public ActionResult Get(decimal amount, string country1, string country2)
+        {
+            var result = _currencyService.ReadCurrencyAmount(amount, country1, country2);
+            var result2 = _currencyService.ReadCurrencyAmount2(amount, country1, country2);
+            var resultRate = result.Rate1;
+            var resultRate2 = result2.Rate1;
+            var answer = amount * resultRate2 / resultRate;
+            return new JsonResult(answer);
+        }
+
         // POST: api/Currency
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromBody] RATE rate)
         {
+            var result = _currencyService.Create(rate);
+            return new JsonResult(result);
         }
 
         // PUT: api/Currency/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{country}")]
+        public ActionResult Put(string country, [FromBody] RATE rate)
         {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var result = _currencyService.Update(rate, country);
+            return new JsonResult(result);
         }
     }
 }

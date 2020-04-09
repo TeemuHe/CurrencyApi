@@ -32,7 +32,26 @@ namespace CurrencyApi.Repositories
 
         public RATE Read(string country)
         {
-            return _context.RATE.FirstOrDefault(c => c.Country == country);
+            return _context.RATE.AsNoTracking().FirstOrDefault(c => c.Country == country);
+        }
+
+        public RATE ReadCurrencyAmount(decimal amount, string country1, string country2)
+        {
+            // EI TOIMI VIELÄ   
+            var cCoun1 = Read(country1);
+            var cCoun2 = Read(country2);
+
+            return _context.RATE.AsNoTracking().FirstOrDefault(c => c.Country == country1);
+            /*var cAmount1 = cCoun1.Rate1;
+            var cCoun2 = Read(country2);
+            var cAmount2 = cCoun2.Rate1;
+            var finalResult = amount * cAmount2 / cAmount1;
+            return _context.RATE.AsNoTracking().FirstOrDefault(c => c.finalResult == finalResult);*/
+        }
+
+        public RATE ReadCurrencyAmount2(decimal amount, string country1, string country2)
+        {
+            return _context.RATE.AsNoTracking().FirstOrDefault(c => c.Country == country2);
         }
 
         public RATE Update(RATE rate, string country)
