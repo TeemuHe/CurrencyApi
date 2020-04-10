@@ -31,7 +31,7 @@ namespace CurrencyApi
         {
             services.AddDbContext<DtbankdbContext>(opt =>
 
-            opt.UseSqlServer(Configuration.GetConnectionString("CurrencyDbContext")));
+            opt.UseSqlServer(Configuration.GetConnectionString("AzureDbContext")));
             
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<ICurrencyService, CurrencyService>();
